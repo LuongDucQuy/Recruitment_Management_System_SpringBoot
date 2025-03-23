@@ -1,11 +1,5 @@
 # Recruitment and Interview Management System 🌐💼
 
-Collaborating on an on-the-job training project, [our award-winning team](https://www.facebook.com/aceinspiration/posts/700428808793252) comprises four members:
-
-| ![LinThitHtwe](https://github.com/LinThitHtwe.png) | ![shinewwaihtun](https://github.com/shinewaitun.png) | ![myapwintkhine-developer](https://github.com/myapwintkhine-developer.png) | ![YeYint3424](https://github.com/YeYint3424.png) |
-|:---:|:---:|:---:|:---:|
-| [LinThit27](https://github.com/LinThitHtwe)  | [shinewwaihtun](https://github.com/shinewaitun)  | [myapwintkhine-developer](https://github.com/myapwintkhine-developer)  | [YeYint3424](https://github.com/YeYint3424)  |
-
 ## Tools Used in the Project 🛠️
 
 ### Front End
@@ -23,7 +17,7 @@ Collaborating on an on-the-job training project, [our award-winning team](https:
 - [JUnit](https://junit.org/) 🧪
 
 ### Database
-- [MySQL](https://www.mysql.com/) 🗃️
+- [SQL Server](https://www.mysql.com/) 🗃️
 
 ### Project Details 🚀
 
