@@ -2,464 +2,811 @@
 <html lang="en" xmlns:th="www.thymeleaf.org">
 
 <head>
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Ace Data Systems</title>
-<link rel="stylesheet" th:href="@{/vendors/feather/feather.css}">
-<link rel="stylesheet"
-	th:href="@{/vendors/ti-icons/css/themify-icons.css}">
-<link rel="stylesheet" th:href="@{/vendors/css/vendor.bundle.base.css}">
-<link rel="stylesheet"
-	th:href="@{/vendors/datatables.net-bs4/dataTables.bootstrap4.css}">
-<link rel="stylesheet"
-	th:href="@{/vendors/ti-icons/css/themify-icons.css}">
-<link rel="stylesheet" type="text/css"
-	th:href="@{/js/select.dataTables.min.css}">
-<link rel="stylesheet" th:href="@{/css/vertical-layout-light/style.css}">
-<link rel="shortcut icon" th:href="@{/images/ACEDataSystemFull}" />
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
-	crossorigin="anonymous">
-<link rel="stylesheet" th:href="@{/css/vacancyDetail.css}">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Recuiment</title>
+	<link rel="stylesheet" th:href="@{/vendors/feather/feather.css}">
+	<link rel="stylesheet" th:href="@{/vendors/ti-icons/css/themify-icons.css}">
+	<link rel="stylesheet" th:href="@{/vendors/css/vendor.bundle.base.css}">
+	<link rel="stylesheet" th:href="@{/vendors/datatables.net-bs4/dataTables.bootstrap4.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/js/select.dataTables.min.css}">
+	<link rel="stylesheet" th:href="@{/css/vertical-layout-light/style.css}">
+	<link rel="shortcut icon" th:href="@{/images/logo}" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/css/vacancyDetail.css}">
 
+	<style>
+		:root {
+            --primary-color: #0054a6;
+            --secondary-color: #00a8e8;
+            --accent-color: #3d5a80;
+            --light-bg: #f8f9fa;
+            --border-radius: 0.5rem;
+            --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+            --gradient-bg: linear-gradient(135deg, #f5f7fc 0%, #e6f0fa 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fc;
+            color: #333;
+        }
+
+        .navbar {
+            background-color: white;
+            box-shadow: var(--box-shadow);
+            padding: 0.5rem 1rem;
+        }
+
+        .navbar-brand img {
+            max-height: 50px;
+        }
+
+        .nav-btn {
+            border-radius: var(--border-radius);
+            margin: 0 0.25rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-panel {
+            margin-top: 4.5rem !important;
+            padding: 1.5rem 0;
+        }
+
+        .content-wrapper {
+            padding: 1.5rem;
+        }
+
+        .title {
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .title h3 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .job-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .job-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #555;
+        }
+
+        .job-meta-item i {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+        }
+
+        .badge {
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            border-radius: 50px;
+        }
+
+        .badge-info {
+            background-color: var(--secondary-color);
+        }
+
+        .badge-primary {
+            background-color: var(--primary-color);
+        }
+
+        .badge-urgent {
+            background-color: #dc3545;
+        }
+
+        .apply-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .apply-btn:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .card {
+            border: none;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.15);
+        }
+
+        .lg-card {
+            background: var(--gradient-bg);
+            padding: 2rem;
+            border-radius: 1rem;
+        }
+
+        .sm-card {
+            background-color: white;
+            padding: 0;
+        }
+
+        .job-content {
+            padding: 2rem;
+        }
+
+        .job-content h3 {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.5rem;
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 0.75rem;
+            margin-top: 2.5rem;
+            position: relative;
+        }
+
+        .job-content h3::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background: var(--accent-color);
+            bottom: -3px;
+            left: 0;
+        }
+
+        .job-content p {
+            line-height: 1.9;
+            color: #444;
+            font-size: 1.05rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .job-content ul {
+            padding-left: 0;
+            margin-bottom: 2rem;
+        }
+
+        .job-content li {
+            margin-bottom: 1rem;
+            position: relative;
+            list-style-type: none;
+            padding-left: 2rem;
+            line-height: 1.7;
+            font-size: 1.05rem;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .job-content li:hover {
+            transform: translateX(5px);
+            color: var(--primary-color);
+        }
+
+        .job-content li::before {
+            content: '\f058'; /* Font Awesome circle-check icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+        }
+
+        .job-info {
+            padding: 1.5rem;
+        }
+
+        .job-info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .job-info-item:last-child {
+            border-bottom: none;
+        }
+
+        .job-info-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: rgba(0, 168, 232, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+        }
+
+        .job-info-icon i {
+            color: var(--secondary-color);
+            font-size: 1.25rem;
+        }
+
+        .job-info-content h5 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 0.25rem;
+        }
+
+        .job-info-content span {
+            font-size: 1rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .modal-content {
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .modal-header {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            padding: 1.25rem;
+        }
+
+        .modal-title {
+            font-weight: 600;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-control {
+            border-radius: var(--border-radius);
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 0.2rem rgba(0, 84, 166, 0.25);
+            border-color: var(--secondary-color);
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+        @media (max-width: 768px) {
+            .job-meta {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .title {
+                padding: 1rem;
+            }
+
+            .apply-btn {
+                width: 100%;
+                margin-top: 1rem;
+            }
+
+            .job-content {
+                padding: 1.5rem;
+            }
+
+            .job-content h3 {
+                font-size: 1.3rem;
+            }
+
+            .job-content li {
+                font-size: 1rem;
+                padding-left: 1.8rem;
+            }
+        }
+	</style>
 </head>
 
 <body>
-	<div class="container-scroller">
-		<!-- partial:partials/_navbar.html -->
-		<nav class="navbar col-sm-12 col-12 p-0 fixed-top d-flex "
-			th:fragment="nav">
-			<div
-				class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-				<a class="navbar-brand brand-logo mr-5" th:href="@{/}"><img
-					th:src="@{/images/ACEDataSystemFull.jpg}" alt="logo" /></a> <a
-					class="navbar-brand brand-logo-mini" th:href="@{/}"><img
-					th:src="@{/images/ACEDataSystemFull.jpg}" alt="logo" /></a>
-			</div>
-			<div
-				class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+<div class="container-scroller">
+	<!-- Navbar -->
+	<nav class="navbar col-sm-12 col-12 p-0 fixed-top d-flex" th:fragment="nav">
+		<div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+			<a class="navbar-brand brand-logo mr-5" th:href="@{/}">
+				<img th:src="@{/images/logo.png}" alt="Ace Data Systems" />
+			</a>
+			<a class="navbar-brand brand-logo-mini" th:href="@{/}">
+				<img th:src="@{/images/logo.png}" alt="Ace" />
+			</a>
+		</div>
+		<div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+			<ul class="navbar-nav navbar-nav-right">
+				<li class="navbar-nav mr-sm-2">
+					<a class="nav-item text-decoration-none" th:href="@{/}">
+						<button class="btn btn-light nav-btn btn-sm">
+							<i class="ti-home mr-1"></i> Home
+						</button>
+					</a>
+					<a class="nav-item text-decoration-none" th:href="@{/candidate/jobs}">
+						<button class="btn btn-light nav-btn btn-sm">
+							<i class="ti-briefcase mr-1"></i> Jobs
+						</button>
+					</a>
+					<a class="nav-item text-decoration-none" th:href="@{/candidate/about}">
+						<button class="btn btn-light nav-btn btn-sm">
+							<i class="ti-info-alt mr-1"></i> About
+						</button>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
 
-				<ul class="navbar-nav navbar-nav-right">
+	<div class="main-panel" style="width: 100%;">
+		<div class="content-wrapper">
+			<!-- Job Title Section -->
+			<div class="title">
+				<input type="hidden" th:value="*{vacancyInfo.id}" id="vacancy-id" />
 
-					<li class="navbar-nav mr-sm-2"><a
-						class="nav-item text-decoration-none" th:href="@{/}">
-							<button class="btn btn-light btn-sm hide-on-phone">Home</button>
-					</a> <a class="nav-item text-decoration-none"
-						th:href="@{/candidate/jobs}"><button
-								class="btn btn-light btn-sm">Jobs</button></a> <a
-						class="nav-item text-decoration-none"
-						th:href="@{/candidate/about}"><button
-								class="btn btn-light btn-sm">About</button></a></li>
-				</ul>
-			</div>
+				<!-- Success Alert -->
+				<div class="alert alert-success alert-dismissible fade show" role="alert" id="successAlert" th:if="${param.success}">
+					<i class="ti-check mr-2"></i> Application submitted successfully!
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
 
-		</nav>
+				<div class="row align-items-center">
+					<div class="col-md-8">
+						<h3 th:text="*{vacancyInfo.position.name}" class="mb-3"></h3>
 
+						<!-- Job Meta Info -->
+						<div class="job-meta">
+							<div class="job-meta-item">
+								<i class="ti-user"></i>
+								<span th:text="*{vacancyInfo.count} + ' Openings'"></span>
+							</div>
+							<div class="job-meta-item">
+								<i class="ti-location-pin"></i>
+								<span th:text="*{vacancyInfo.department.address}"></span>
+							</div>
+							<div class="job-meta-item">
+								<i class="ti-calendar"></i>
+								<span th:text="*{vacancyInfo.createdDate}"></span>
+							</div>
+							<div class="job-meta-item">
+								<i class="ti-wallet"></i>
+								<span th:text="*{vacancyInfo.salary}"></span>
+							</div>
+						</div>
 
-
-		<div class="main-panel" style="width: 100%; margin-top: 3rem;">
-			<div class="content-wrapper">
-
-				<div class="title">
-
-					<input type="hidden" th:value="*{vacancyInfo.id}" id="vacancy-id" />
-					<div class="alert alert-success alert-dismissible fade show"
-						role="alert" id="successAlert" th:if="${param.success}">
-						Successful!
-						<button type="button" class="close" data-dismiss="alert"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
+						<!-- Job Badges -->
+						<div class="d-flex mt-3 flex-wrap">
+							<span class="badge badge-info text-white me-2 mb-2" th:text="*{vacancyInfo.type}"></span>
+							<span th:if="${vacancyInfo.urgent == true}" class="badge badge-urgent text-white mb-2">Urgent</span>
+						</div>
+					</div>
+					<div class="col-md-4 text-md-end mt-3 mt-md-0">
+						<button class="btn apply-btn" type="button" data-bs-toggle="modal" data-bs-target="#candidateModel">
+							<i class="ti-pencil-alt me-2"></i> Apply Now
 						</button>
 					</div>
-					<div class="row">
-						<div class="col-6">
-							<h3 th:text="*{vacancyInfo.position.name}"
-								style="text-transform: capitalize;"></h3>
-
-						</div>
-						<div class="col-6">
-							<div class="btn-box text-right">
-								<button class="btn btn-info" type="button"
-									data-bs-toggle="modal" data-bs-target="#candidateModel">Apply
-									Now</button>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-lg-8 col-sm-6">
-							<div class="row">
-								<div class="col-lg-3 col-md-6 col-sm-6">
-									<i class="ti-user text-info"></i> <span
-										th:text="*{vacancyInfo.count}"></span>
-								</div>
-								<div class="col-lg-3 col-md-6 col-sm-6">
-									<i class="ti-location-pin text-info"></i> <span
-										th:text="*{vacancyInfo.department.address}"></span>
-								</div>
-								<div class="col-lg-3 col-md-6 col-sm-6">
-									<i class="ti-timer text-info"></i> <span
-										th:text="*{vacancyInfo.createdDate}"></span>
-								</div>
-								<div class="col-lg-3 col-md-6 col-sm-6">
-									<i class="ti-wallet text-info"></i> <span
-										th:text="*{vacancyInfo.salary}"></span>
-								</div>
-							</div>
-						</div>
-
-					</div>
-
-					<div class="d-flex mt-3">
-						<div class="mr-2">
-							<span class="badge rounded-pill badge-info text-white"
-								th:text="*{vacancyInfo.type}"></span>
-						</div>
-						<div>
-							<span th:if="${vacancyInfo.urgent == true}"
-								class="badge rounded-pill badge-primary text-white">Urgent</span>
-						</div>
-					</div>
-
 				</div>
-				<div class="row" style="margin-bottom: .5rem">
-					<div class="card lg-card col-lg-9 col-sm-12">
-						<div class="outer-box bg-white">
-							<div class="container">
-								<div class="row">
-									<div class="job-content col-lg-8 col-md-12 col-sm-12">
-										<div class="mt-5 ml-0">
-											<h3>Job Description</h3>
-											<p th:text="*{vacancyInfo.description}"
-												class="text-wrap mt-4"></p>
-											<h3 class="mt-4 mb-4">Job Responsibilities</h3>
-											<ul class="mt-4 mb-4">
-												<li class="mb-4"
-													th:each="responsibility :  ${responsibilities}"><span
-													th:text="${responsibility}"></span></li>
-											</ul>
-											<h3 class="mt-4 mb-4">Job Requirements</h3>
-											<ul class="mt-4 mb-4">
-												<li class="mb-4" th:each="requirement :  ${requirements}">
-													<span th:text="${requirement}"></span>
-												</li>
-											</ul>
-											<h3 class="mt-4 mb-4">Job Preferences</h3>
-											<ul class="mt-4 mb-4">
-												<li class="mb-4" th:each="preference :  ${preferences}">
-													<span th:text="${preference}"></span>
-												</li>
-											</ul>
-										</div>
-									</div>
+			</div>
 
-								</div>
-							</div>
+			<div class="row">
+				<!-- Job Description Card -->
+				<div class="col-lg-8 col-md-12 mb-4">
+					<div class="card lg-card">
+						<div class="job-content">
+							<h3>Job Description</h3>
+							<p th:text="*{vacancyInfo.description}" class="text-wrap mt-3"></p>
+
+							<h3>Job Responsibilities</h3>
+							<ul class="mt-3">
+								<li class="mb-3" th:each="responsibility : ${responsibilities}">
+									<span th:text="${responsibility}"></span>
+								</li>
+							</ul>
+
+<!--							<h3>Job Requirements</h3>-->
+<!--							<ul class="mt-3">-->
+<!--								<li class="mb-3" th:each="requirement : ${requirements}">-->
+<!--									<span th:text="${requirement}"></span>-->
+<!--								</li>-->
+<!--							</ul>-->
+
+							<h3>Job Preferences</h3>
+							<ul class="mt-3">
+								<li class="mb-3" th:each="preference : ${preferences}">
+									<span th:text="${preference}"></span>
+								</li>
+							</ul>
 						</div>
 					</div>
+				</div>
 
-
-					<div class="card sm-card col-lg-3 col-sm-12"
-						style="background-color: #f5f7fcff;">
+				<!-- Job Overview Card -->
+				<div class="col-lg-4 col-md-12">
+					<div class="card sm-card">
 						<div class="card-body">
-							<h3 class="card-ti">Job Overview</h3>
-							<div class="job-info p-3">
-								<div class="row mb-5">
-									<div class="col-3">
-										<div class="d-flex flex-column">
-											<i class="ti-calendar text-info"></i>
-										</div>
+							<h3 class="mb-4 pb-2 border-bottom">Job Overview</h3>
+
+							<div class="job-info">
+								<div class="job-info-item">
+									<div class="job-info-icon">
+										<i class="ti-calendar"></i>
 									</div>
-									<div class="col-9">
-										<div class="d-flex flex-column text-left">
-											<h5>Date Posted:</h5>
-											<span th:text="*{vacancyInfo.createdDate}"></span>
-										</div>
+									<div class="job-info-content">
+										<h5>Date Posted</h5>
+										<span th:text="*{vacancyInfo.createdDate}"></span>
 									</div>
 								</div>
-								<div class="row mb-5">
-									<div class="col-3">
-										<div class="d-flex flex-column">
-											<i class="ti-time text-info"></i>
-										</div>
+
+								<div class="job-info-item">
+									<div class="job-info-icon">
+										<i class="ti-timer"></i>
 									</div>
-									<div class="col-9">
-										<div class="d-flex flex-column text-left">
-											<h5>Expiration Date:</h5>
-											<span th:text="*{vacancyInfo.dueDate}"></span>
-										</div>
+									<div class="job-info-content">
+										<h5>Expiration Date</h5>
+										<span th:text="*{vacancyInfo.dueDate}"></span>
 									</div>
 								</div>
-								<div class="row mb-5">
-									<div class="col-3">
-										<div class="d-flex flex-column">
-											<i class="ti-location-pin text-info"></i>
-										</div>
+
+								<div class="job-info-item">
+									<div class="job-info-icon">
+										<i class="ti-location-pin"></i>
 									</div>
-									<div class="col-9">
-										<div class="d-flex flex-column text-left">
-											<h5>Job Location:</h5>
-											<span th:text="*{vacancyInfo.department.address}"></span>
-										</div>
+									<div class="job-info-content">
+										<h5>Job Location</h5>
+										<span th:text="*{vacancyInfo.department.address}"></span>
 									</div>
 								</div>
-								<div class="row mb-5">
-									<div class="col-3">
-										<div class="d-flex flex-column">
-											<i class="ti-user text-info"></i>
-										</div>
+
+								<div class="job-info-item">
+									<div class="job-info-icon">
+										<i class="ti-user"></i>
 									</div>
-									<div class="col-9">
-										<div class="d-flex flex-column text-left">
-											<h5>Job Position:</h5>
-											<span th:text="*{vacancyInfo.position.name}"></span>
-										</div>
+									<div class="job-info-content">
+										<h5>Job Position</h5>
+										<span th:text="*{vacancyInfo.position.name}"></span>
 									</div>
 								</div>
-								<div class="row mb-5">
-									<div class="col-3">
-										<div class="d-flex flex-column">
-											<i class="ti-wallet text-info"></i>
-										</div>
+
+								<div class="job-info-item">
+									<div class="job-info-icon">
+										<i class="ti-wallet"></i>
 									</div>
-									<div class="col-9">
-										<div class="d-flex flex-column text-left">
-											<h5>Salary:</h5>
-											<span th:text="*{vacancyInfo.salary}"></span>
-										</div>
+									<div class="job-info-content">
+										<h5>Salary</h5>
+										<span th:text="*{vacancyInfo.salary}"></span>
 									</div>
 								</div>
 							</div>
-
 						</div>
-						<div class="modal fade" id="candidateModel" tabindex="-1"
-							aria-labelledby="candidateModelLabel" aria-hidden="true"
-							data-bs-backdrop="static">
-							<div class="modal-dialog">
-								<div class="modal-content">
-
-									<div class="modal-header">
-										<button type="button" class="btn-close btn-secondary"
-											data-bs-dismiss="modal"
-											aria-label="Close"></button>
-									</div>
-									<form action="/candidate/register" method="post"
-										enctype="multipart/form-data" id="myForm">
-										<div class="modal-body">
-
-											<div class="row">
-													<div class="form-group">
-													<div
-														class="text-center text-dark text-center btn-sm">
-														<h3>Job Registration</h3>
-													</div>
-												</div>
-												<!-- for name and email -->
-												<div class="col-sm-6">
-													<div class="form-group">
-														<label for="name">Name</label> <input type="text"
-															class="form-control" id="name" name="name"
-															placeholder="Enter your name.">
-														<div id="nameValidationMessage" class="invalid-feedback"></div>
-													</div>
-												</div>
-												<div class="col-sm-6">
-													<div class="form-group">
-														<label for="email">Email</label> <input type="email"
-															class="form-control" name="email" id="email"
-															placeholder="example@example.com">
-														<div id="emailValidationMessage" class="invalid-feedback"></div>
-													</div>
-												</div>
-												<!-- end name and email -->
-												<!-- start dob and ph no. -->
-												<div class="col-sm-6">
-													<div class="form-group">
-														<label for="dob">Birthday</label> <input type="date"
-															class="form-control" name="dob" id="dob">
-														<div id="dobValidationMessage" class="invalid-feedback">At
-															Least,You should be 18 years old.</div>
-													</div>
-												</div>
-												<div class="col-sm-6">
-													<div class="form-group">
-														<label for="phone">Phone Number</label> <input type="text"
-															class="form-control" id="phone" name="phone"
-															aria-describedby="basic-addon1"
-															placeholder="Enter Your Phone." maxlength="11"
-															pattern="[0-9]*" inputmode="numeric"
-															oninput="this.value=this.value.replace(/[^0-9]/g,'');">
-														<div id="phoneValidationMessage" class="invalid-feedback"></div>
-													</div>
-												</div>
-
-												<!-- end dob and ph no. -->
-												<!-- gender and lvl -->
-												<div class="col-sm-6">
-													<div class="form-group">
-														<label>Gender</label>
-														<div class="row"
-															style="position: relative; left: 1.5rem; width: 13rem">
-															<div class="col-6">
-																<div class="form-check " style="height: 1.65rem">
-																	<input class="form-check-input" type="radio" value="0"
-																		id="male" name="gender" checked>Male
-																</div>
-															</div>
-															<div class="col-6">
-																<div class="form-check">
-																	<input class="form-check-input" type="radio" value="1"
-																		id="female" name="gender">Female
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="col-sm-6">
-													<div class="form-group">
-														<label for="levelSelect">Please choose your level.</label>
-														<div class="dropdown input-group">
-															<select class="custom-select" id="levelSelect"
-																name="level">
-
-																<option value="Low">Low</option>
-																<option value="Mid">Mid</option>
-																<option value="High">High</option>
-															</select>
-														</div>
-														<div id="levelValidationMessage" class="invalid-feedback">Please
-															select your level.</div>
-													</div>
-												</div>
-												<!-- gender and lvl -->
-												<!-- Tech Skill and education -->
-												<div class="col-sm-6">
-													<div class="form-group">
-														<label for="techSkill">Technical Skill</label>
-														<textarea type="text" class="form-control"
-															name="techSkill" id="techSkill"
-															placeholder="Enter Your Technical skills"></textarea>
-														<div id="techSkillValidationMessage"
-															class="invalid-feedback">Technical Skill cannot
-															empty.</div>
-													</div>
-												</div>
-												<div class="col-sm-6">
-													<div class="form-group">
-														<label for="education">Education</label>
-														<textarea type="text" class="form-control" id="education"
-															name="education" placeholder="Your Education Level."></textarea>
-														<div id="educationValidationMessage"
-															class="invalid-feedback">Education cannot empty.</div>
-													</div>
-												</div>
-												<!-- Tech Skill and education -->
-												<!-- exp and language -->
-												<div class="col-sm-6">
-													<div class="form-group">
-														<label for="exp">Work Experience</label>
-														<textarea type="text" class="form-control" id="exp"
-															name="exp" placeholder="Work Experience"></textarea>
-														<div id="expValidationMessage" class="invalid-feedback"></div>
-													</div>
-												</div>
-												<div class="col-sm-6">
-													<div class="form-group">
-														<label for="languageSkill">Language Skill</label>
-														<textarea type="text" class="form-control"
-															name="languageSkill" id="languageSkill"
-															placeholder="Which languages do you express?"></textarea>
-														<div id="languageSkillValidationMessage"
-															class="invalid-feedback"></div>
-													</div>
-												</div>
-												<!-- exp and language -->
-												<!-- main-tech & expected-salary -->
-												<div class="col-sm-6">
-													<div class="form-group">
-														<label for="mainTech">Main Specialist Technology</label> <input
-															type="text" class="form-control" name="mainTech"
-															id="mainTech" placeholder="Enter specialize technology">
-														<div id="mainTechValidationMessage"
-															class="invalid-feedback"></div>
-													</div>
-												</div>
-												<div class="col-sm-6">
-													<div class="form-group">
-														<label for="expectedSalary">Expected Salary</label> <input
-															type="text" class="form-control" id="expectedSalary"
-															name="expectedSalary"
-															placeholder="Please enter expected salary.">
-														<div id="expectedSalaryValidationMessage"
-															class="invalid-feedback"></div>
-													</div>
-												</div>
-												<!-- main-tech & expected-salary -->
-											</div>
-
-											<div class="form-group">
-												<label for="file" style="display: block;">Upload
-													Your CV (Word, PDF)</label> <input type="file"
-													class="form-control btn-primary" id="file" name="file"
-													accept=".docx, .pdf"> <input type="hidden"
-													name="vacancyId" th:value="${vacancyInfo.id}">
-												<div id="fileValidationMessage" class="invalid-feedback">Please
-													select your cv form.</div>
-											</div>
-											<p>*Please double check your informations before
-												sumitting</p>
-										</div>
-										<div class="modal-footer">
-											<span style="position: relative; right: .3rem"><button
-													type="button" class="btn btn-secondary btn-md"
-													data-bs-dismiss="modal">Close</button></span>
-											<button type="submit" class="btn btn-primary btn-md"
-												id="submitButton">Submit</button>
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
-
-
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script th:src="@{/vendors/js/vendor.bundle.base.js}"></script>
-	</script>
-	<!-- endinject -->
-	<!-- Plugin js for this page -->
-	<script th:src="@{/vendors/chart.js/Chart.min.js}"></script>
-	<script th:src="@{/vendors/datatables.net/jquery.dataTables.js}"></script>
-	<script
-		th:src="@{/vendors/datatables.net-bs4/dataTables.bootstrap4.js}"></script>
-	<script th:src="@{/js/dataTables.select.min.js}"></script>
+</div>
 
-	<!-- End plugin js for this page -->
-	<!-- inject:js -->
-	<script th:src="@{/js/off-canvas.js}"></script>
-	<script th:src="@{/js/hoverable-collapse.js}"></script>
-	<script th:src="@{/js/template.js}"></script>
-	<script th:src="@{/js/settings.js}"></script>
-	<script th:src="@{/js/todolist.js}"></script>
-	<script th:src="@{/javascripts/candidate_vacancy_info.js}"></script>
-	<!-- endinject -->
-	<!-- Custom js for this page-->
-	<script th:src="@{/js/dashboard.js}"></script>
-	<script th:src="@{/js/Chart.roundedBarCharts.js}"></script>
+<!-- Apply Job Modal -->
+<div class="modal fade" id="candidateModel" tabindex="-1" aria-labelledby="candidateModelLabel" aria-hidden="true" data-bs-backdrop="static">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="candidateModelLabel">Job Application</h4>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
 
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-		crossorigin="anonymous"></script>
-	<!-- End custom js for this page-->
+			<form action="/candidate/register" method="post" enctype="multipart/form-data" id="myForm">
+				<div class="modal-body">
+					<div class="text-center mb-4">
+						<h3>Apply for <span th:text="*{vacancyInfo.position.name}" class="text-primary"></span></h3>
+						<p class="text-muted">Please fill in your details to apply for this position</p>
+					</div>
+
+					<div class="row">
+						<!-- Personal Info -->
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="name">Full Name</label>
+								<input type="text" class="form-control" id="name" name="name" placeholder="Enter your full name">
+								<div id="nameValidationMessage" class="invalid-feedback"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="email">Email Address</label>
+								<input type="email" class="form-control" name="email" id="email" placeholder="example@example.com">
+								<div id="emailValidationMessage" class="invalid-feedback"></div>
+							</div>
+						</div>
+
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="dob">Date of Birth</label>
+								<input type="date" class="form-control" name="dob" id="dob">
+								<div id="dobValidationMessage" class="invalid-feedback">You must be at least 18 years old to apply.</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="phone">Phone Number</label>
+								<input type="text" class="form-control" id="phone" name="phone" placeholder="Enter your phone number" maxlength="11" pattern="[0-9]*" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+								<div id="phoneValidationMessage" class="invalid-feedback"></div>
+							</div>
+						</div>
+
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>Gender</label>
+								<div class="d-flex gap-4 mt-2">
+									<div class="form-check">
+										<input class="form-check-input" type="radio" value="0" id="male" name="gender" checked>
+										<label class="form-check-label" for="male">Male</label>
+									</div>
+									<div class="form-check">
+										<input class="form-check-input" type="radio" value="1" id="female" name="gender">
+										<label class="form-check-label" for="female">Female</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="levelSelect">Experience Level</label>
+								<select class="form-select" id="levelSelect" name="level">
+									<option value="Low">Entry Level</option>
+									<option value="Mid">Mid Level</option>
+									<option value="High">Senior Level</option>
+								</select>
+								<div id="levelValidationMessage" class="invalid-feedback">Please select your experience level.</div>
+							</div>
+						</div>
+
+						<!-- Skills & Education -->
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="techSkill">Technical Skills</label>
+								<textarea class="form-control" name="techSkill" id="techSkill" rows="3" placeholder="List your technical skills, separated by commas"></textarea>
+								<div id="techSkillValidationMessage" class="invalid-feedback">Please list your technical skills.</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="education">Education</label>
+								<textarea class="form-control" id="education" name="education" rows="3" placeholder="Your educational background"></textarea>
+								<div id="educationValidationMessage" class="invalid-feedback">Please provide your educational background.</div>
+							</div>
+						</div>
+
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="exp">Work Experience</label>
+								<textarea class="form-control" id="exp" name="exp" rows="3" placeholder="Describe your relevant work experience"></textarea>
+								<div id="expValidationMessage" class="invalid-feedback"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="languageSkill">Language Skills</label>
+								<textarea class="form-control" name="languageSkill" id="languageSkill" rows="3" placeholder="List languages you are proficient in"></textarea>
+								<div id="languageSkillValidationMessage" class="invalid-feedback"></div>
+							</div>
+						</div>
+
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="mainTech">Main Specialist Technology</label>
+								<input type="text" class="form-control" name="mainTech" id="mainTech" placeholder="Your primary technical specialization">
+								<div id="mainTechValidationMessage" class="invalid-feedback"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="expectedSalary">Expected Salary</label>
+								<input type="text" class="form-control" id="expectedSalary" name="expectedSalary" placeholder="Your salary expectation">
+								<div id="expectedSalaryValidationMessage" class="invalid-feedback"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group mt-4">
+						<label for="file">Upload Your CV (Word, PDF)</label>
+						<input type="file" class="form-control" id="file" name="file" accept=".docx, .pdf">
+						<input type="hidden" name="vacancyId" th:value="${vacancyInfo.id}">
+						<div id="fileValidationMessage" class="invalid-feedback">Please upload your CV in Word or PDF format.</div>
+						<div class="form-text mt-2">Upload your most recent CV. Maximum file size: 2MB.</div>
+					</div>
+
+					<div class="alert alert-info mt-3">
+						<i class="ti-info-alt mr-2"></i> Please double-check all information before submitting your application.
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+					<button type="submit" class="btn btn-primary" id="submitButton">
+						<i class="ti-check mr-1"></i> Submit Application
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:src="@{/vendors/js/vendor.bundle.base.js}"></script>
+<script th:src="@{/vendors/chart.js/Chart.min.js}"></script>
+<script th:src="@{/vendors/datatables.net/jquery.dataTables.js}"></script>
+<script th:src="@{/vendors/datatables.net-bs4/dataTables.bootstrap4.js}"></script>
+<script th:src="@{/js/dataTables.select.min.js}"></script>
+<script th:src="@{/js/off-canvas.js}"></script>
+<script th:src="@{/js/hoverable-collapse.js}"></script>
+<script th:src="@{/js/template.js}"></script>
+<script th:src="@{/js/settings.js}"></script>
+<script th:src="@{/js/todolist.js}"></script>
+<script th:src="@{/javascripts/candidate_vacancy_info.js}"></script>
+<script th:src="@{/js/dashboard.js}"></script>
+<script th:src="@{/js/Chart.roundedBarCharts.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+	$(document).ready(function() {
+        // Show success alert auto-dismiss
+        if ($('#successAlert').length) {
+            setTimeout(function() {
+                $('#successAlert').alert('close');
+            }, 5000);
+        }
+
+        // Form validation
+        $('#myForm').on('submit', function(e) {
+            let isValid = true;
+
+            // Validate name
+            if ($('#name').val().trim() === '') {
+                $('#name').addClass('is-invalid');
+                $('#nameValidationMessage').text('Please enter your name').show();
+                isValid = false;
+            } else {
+                $('#name').removeClass('is-invalid');
+            }
+
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test($('#email').val())) {
+                $('#email').addClass('is-invalid');
+                $('#emailValidationMessage').text('Please enter a valid email address').show();
+                isValid = false;
+            } else {
+                $('#email').removeClass('is-invalid');
+            }
+
+            // Validate DOB for 18+ years
+            const dob = new Date($('#dob').val());
+            const today = new Date();
+            const age = today.getFullYear() - dob.getFullYear();
+            const monthDiff = today.getMonth() - dob.getMonth();
+
+            if (isNaN(dob.getTime()) || (age < 18 || (age === 18 && monthDiff < 0))) {
+                $('#dob').addClass('is-invalid');
+                isValid = false;
+            } else {
+                $('#dob').removeClass('is-invalid');
+            }
+
+            // Validate phone
+            if ($('#phone').val().length < 7) {
+                $('#phone').addClass('is-invalid');
+                $('#phoneValidationMessage').text('Please enter a valid phone number').show();
+                isValid = false;
+            } else {
+                $('#phone').removeClass('is-invalid');
+            }
+
+            // Validate technical skills
+            if ($('#techSkill').val().trim() === '') {
+                $('#techSkill').addClass('is-invalid');
+                isValid = false;
+            } else {
+                $('#techSkill').removeClass('is-invalid');
+            }
+
+            // Validate education
+            if ($('#education').val().trim() === '') {
+                $('#education').addClass('is-invalid');
+                isValid = false;
+            } else {
+                $('#education').removeClass('is-invalid');
+            }
+
+            // Validate file upload
+            if ($('#file').get(0).files.length === 0) {
+                $('#file').addClass('is-invalid');
+                isValid = false;
+            } else {
+                $('#file').removeClass('is-invalid');
+            }
+
+            if (!isValid) {
+                e.preventDefault();
+                $('html, body').animate({
+                    scrollTop: $('.is-invalid:first').offset().top - 150
+                }, 500);
+            }
+        });
+
+        // Real-time validation
+        $('#name, #email, #techSkill, #education').on('input', function() {
+            if ($(this).val().trim() !== '') {
+                $(this).removeClass('is-invalid');
+            }
+        });
+
+        // Enhance form UX with animations
+        $('.form-control').on('focus', function() {
+            $(this).parent().addClass('focused');
+        }).on('blur', function() {
+            if ($(this).val() === '') {
+                $(this).parent().removeClass('focused');
+            }
+        });
+
+        // Initialize tooltips
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+    });
+</script>
 </body>
-
 </html>

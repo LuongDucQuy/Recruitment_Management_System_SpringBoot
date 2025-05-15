@@ -25,6 +25,8 @@ public interface VacancyRepository extends JpaRepository<Vacancy, Long>, DataTab
 
 	Page<Vacancy> findByActiveTrue(Pageable pageable);
 
+	List<Vacancy> findByActiveTrueAndDueDateGreaterThanEqual(LocalDate dueDate);
+
 	@Query("SELECT v FROM Vacancy v JOIN FETCH v.position JOIN FETCH v.department")
 	List<Vacancy> findAllWithPositionAndDepartment(Pageable pageable);
 

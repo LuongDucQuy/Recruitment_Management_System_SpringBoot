@@ -27,10 +27,12 @@ import com.ace.job.recruitment.entity.Department;
 import com.ace.job.recruitment.entity.User;
 import com.ace.job.recruitment.service.DepartmentService;
 import com.ace.job.recruitment.service.UserService;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 @Controller
 @RequestMapping("/admin")
 public class DepartmentController {
+	private static final Logger logger = LoggerFactory.getLogger(DepartmentController.class);
 	@Autowired
 	DepartmentService departmentService;
 
@@ -40,7 +42,7 @@ public class DepartmentController {
 	// Method to add department
 	@PostMapping("/add-department")
 	public ResponseEntity<String> createDepartmentPost(@ModelAttribute("departmentDTO") DepartmentDTO departmentDTO,
-			Model model) {
+													   Model model) {
 
 		// check name duplication
 		Department departmentWithSameName = departmentService.checkDepartmentDuplicate(departmentDTO.getName());
@@ -93,37 +95,42 @@ public class DepartmentController {
 	// Method to show department detail
 	@GetMapping("/department-detail")
 	public ResponseEntity<DepartmentDTO> showDepartmentDetail(@RequestParam("id") int id) {
-		Department department = departmentService.getDepartmentById(id);
-		if (department != null) {
-			User createdUser = userService.getUserById(department.getCreatedUserId());
-			User updatedUser = new User();
-			if (department.getUpdatedUserId() != 0) {
+		try {
+			Department department = departmentService.getDepartmentById(id);
+			if (department != null) {
+				User createdUser = userService.getUserById(department.getCreatedUserId());
+				User updatedUser = null;
 
-				updatedUser = userService.getUserById(department.getUpdatedUserId());
+				Integer updatedUserId = department.getUpdatedUserId();
+				if (updatedUserId != null && updatedUserId != 0) {
+					updatedUser = userService.getUserById(updatedUserId);
+				}
+
+				DepartmentDTO departmentDetail = new DepartmentDTO(department.getId(), department.getName(),
+						department.getAddress(), department.getCreatedUserId(), department.getCreatedDateTime(),
+						updatedUserId, department.getUpdatedDateTime());
+
+				if (createdUser != null) {
+					departmentDetail.setCreatedUsername(createdUser.getName());
+				}
+
+				if (updatedUser != null) {
+					departmentDetail.setUpdatedUsername(updatedUser.getName());
+				} else {
+					departmentDetail.setUpdatedUsername("-");
+				}
+
+				return ResponseEntity.ok(departmentDetail);
 			} else {
-				updatedUser = null;
+				logger.warn("Department not found with ID: {}", id);
+				return ResponseEntity.notFound().build();
 			}
-
-			DepartmentDTO departmentDetail = new DepartmentDTO(department.getId(), department.getName(),
-					department.getAddress(), department.getCreatedUserId(), department.getCreatedDateTime(),
-					department.getUpdatedUserId(), department.getUpdatedDateTime());
-
-			if (createdUser != null) {
-				departmentDetail.setCreatedUsername(createdUser.getName());
-			}
-
-			// Check if updatedUserId is 0, if so, set updatedUsername to "-"
-			if (updatedUser != null) {
-				departmentDetail.setUpdatedUsername(updatedUser.getName());
-			} else {
-				departmentDetail.setUpdatedUsername("-");
-			}
-
-			return ResponseEntity.ok(departmentDetail);
-		} else {
-			return ResponseEntity.notFound().build();
+		} catch (Exception e) {
+			logger.error("Error while fetching department details for ID {}: {}", id, e.getMessage(), e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
+
 
 	// Method to call departments for users
 	@GetMapping("/departments-for-user")
@@ -136,37 +143,36 @@ public class DepartmentController {
 	// Method to update department
 	@PostMapping("/update-department")
 	public ResponseEntity<String> updateDepartmentPost(@ModelAttribute("oneDepartment") DepartmentDTO oneDepartment,
-			Model model) {
+													   Model model) {
+		try {
+			Department departmentWithSameName = departmentService.checkDepartmentDuplicateForUpdate(oneDepartment.getName(),
+					oneDepartment.getId());
+			if (departmentWithSameName != null) {
+				String errorMessage = oneDepartment.getName() + " already exists.";
+				logger.warn("Duplicate department name: {}", oneDepartment.getName());
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+			}
 
-		// check name duplication
-		Department departmentWithSameName = departmentService.checkDepartmentDuplicateForUpdate(oneDepartment.getName(),
-				oneDepartment.getId());
-		if (departmentWithSameName != null) {
-			String errorMessage = oneDepartment.getName() + " already exists.";
-			Map<String, String> errorResponse = new HashMap<>();
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+			Department department = departmentService.getDepartmentById(oneDepartment.getId());
+			department.setName(oneDepartment.getName());
+			department.setAddress(oneDepartment.getAddress());
+
+			LocalDateTime currentDateTime = LocalDateTime.now();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+			String formattedDateTime = currentDateTime.format(formatter);
+			department.setUpdatedDateTime(formattedDateTime);
+
+			department.setUpdatedUserId(departmentService.getCurrentUserId());
+
+			departmentService.updateDepartment(department);
+
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			logger.error("Error while updating department with ID {}: {}", oneDepartment.getId(), e.getMessage(), e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Update failed");
 		}
-
-		// data from form
-		Department department = new Department();
-		department = departmentService.getDepartmentById(oneDepartment.getId());
-		department.setName(oneDepartment.getName());
-		department.setAddress(oneDepartment.getAddress());
-
-		// format datetime
-		LocalDateTime currentDateTime = LocalDateTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-		String formattedDateTime = currentDateTime.format(formatter);
-		department.setUpdatedDateTime(formattedDateTime);
-
-		// updated user id
-		department.setUpdatedUserId(departmentService.getCurrentUserId());
-
-		// update in db
-		departmentService.updateDepartment(department);
-
-		return ResponseEntity.ok().build();
 	}
+
 
 	// Method to check duplicate department at update
 	@PostMapping("/duplicate-department-update")

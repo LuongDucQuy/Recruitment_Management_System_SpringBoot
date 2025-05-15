@@ -115,8 +115,8 @@ public class PositionController {
 		User createdUser = userService.getUserById(positionDetail.getCreatedUserId());
 		User updatedUser = null;
 
-		int updatedUserId = positionDetail.getUpdatedUserId();
-		if (updatedUserId != 0) {
+		Integer updatedUserId = positionDetail.getUpdatedUserId();
+		if (updatedUserId != null && updatedUserId != 0) {
 			updatedUser = userService.getUserById(updatedUserId);
 		}
 

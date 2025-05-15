@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -197,53 +198,72 @@ public class InterviewController {
 	// show interview details
 
 	@GetMapping("/interview-detail")
-	public ResponseEntity<Object> getInterviewDetail(@RequestParam("id") Long id) {
-		Interview interview = interviewService.getInterviewById(id);
-
-		if (interview != null) {
-			LocalDate startDate = interview.getStartDate();
-			if (interview.getEndDate() != null) {
-				LocalDate endDate = interview.getEndDate();
-
-				InterviewDTO interviewDetail = new InterviewDTO(interview.getId(), interview.getStartDate().toString(),
-						interview.getEndDate().toString(), interview.getStartTime(), interview.getEndTime(),
-						interview.getType(), interview.getLocation(), interview.getStage(), interview.isStatus(),
-						interview.getCreatedUserId(), interview.getCreatedDateTime(), interview.getUpdatedUserId(),
-						interview.getUpdatedDateTime(), interview.getCanceledUserId(), interview.getCanceledDateTime(),
-						interview.getVacancy(), interview.getUsers());
-				interviewDetail.setCreatedUserName((userService.getUserById(interview.getCreatedUserId())).getName());
-				if (interview.getUpdatedUserId() != 0) {
-					interviewDetail
-							.setUpdatedUserName((userService.getUserById(interview.getUpdatedUserId())).getName());
-				}
-				if (interview.getCanceledUserId() != 0) {
-					interviewDetail
-							.setCanceledUsername((userService.getUserById(interview.getCanceledUserId())).getName());
-				}
-				return ResponseEntity.ok(interviewDetail);
-			} else {
-				InterviewDTO interviewDetail = new InterviewDTO(interview.getId(), interview.getStartDate().toString(),
-						null, interview.getStartTime(), interview.getEndTime(), interview.getType(),
-						interview.getLocation(), interview.getStage(), interview.isStatus(),
-						interview.getCreatedUserId(), interview.getCreatedDateTime(), interview.getUpdatedUserId(),
-						interview.getUpdatedDateTime(), interview.getCanceledUserId(), interview.getCanceledDateTime(),
-						interview.getVacancy(), interview.getUsers());
-				interviewDetail.setCreatedUserName((userService.getUserById(interview.getCreatedUserId())).getName());
-				if (interview.getUpdatedUserId() != 0) {
-					interviewDetail
-							.setUpdatedUserName((userService.getUserById(interview.getUpdatedUserId())).getName());
-				}
-				if (interview.getCanceledUserId() != 0) {
-					interviewDetail
-							.setCanceledUsername((userService.getUserById(interview.getCanceledUserId())).getName());
-				}
-				return ResponseEntity.ok(interviewDetail);
+	public ResponseEntity<InterviewDTO> getInterviewDetail(@RequestParam("id") Long id) {
+		try {
+			Interview interview = interviewService.getInterviewById(id);
+			if (interview == null) {
+				return ResponseEntity.notFound().build();
 			}
 
-		} else {
-			return ResponseEntity.notFound().build();
+			// Xử lý thời gian kết thúc nếu null
+			String endDate = interview.getEndDate() != null ? interview.getEndDate().toString() : null;
+
+			// Khởi tạo DTO
+			InterviewDTO interviewDetail = new InterviewDTO(
+					interview.getId(),
+					interview.getStartDate().toString(),
+					endDate,
+					interview.getStartTime(),
+					interview.getEndTime(),
+					interview.getType(),
+					interview.getLocation(),
+					interview.getStage(),
+					interview.isStatus(),
+					interview.getCreatedUserId(),
+					interview.getCreatedDateTime(),
+					interview.getUpdatedUserId(),
+					interview.getUpdatedDateTime(),
+					interview.getCanceledUserId(),
+					interview.getCanceledDateTime(),
+					interview.getVacancy(),
+					interview.getUsers()
+			);
+
+			// Thiết lập tên người dùng tạo
+			User createdUser = userService.getUserById(interview.getCreatedUserId());
+			if (createdUser != null) {
+				interviewDetail.setCreatedUserName(createdUser.getName());
+			}
+
+			// Thiết lập tên người dùng cập nhật (nếu có)
+			Integer updatedUserId = interview.getUpdatedUserId();
+			if (updatedUserId != null && updatedUserId != 0) {
+				User updatedUser = userService.getUserById(updatedUserId);
+				if (updatedUser != null) {
+					interviewDetail.setUpdatedUserName(updatedUser.getName());
+				}
+			} else {
+				interviewDetail.setUpdatedUserName("-");
+			}
+
+			// Thiết lập tên người dùng hủy (nếu có)
+			Integer canceledUserId = interview.getCanceledUserId();
+			if (canceledUserId != null && canceledUserId != 0) {
+				User canceledUser = userService.getUserById(canceledUserId);
+				if (canceledUser != null) {
+					interviewDetail.setCanceledUsername(canceledUser.getName());
+				}
+			} else {
+				interviewDetail.setCanceledUsername("-");
+			}
+
+			return ResponseEntity.ok(interviewDetail);
+
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
+
 
 	// update interview
 

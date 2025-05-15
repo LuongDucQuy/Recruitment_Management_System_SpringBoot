@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.ace.job.recruitment.dto.VacancyDto;
@@ -121,12 +122,13 @@ public class VacancyServiceImpl implements VacancyService {
 	}
 
 	@Override
+	@Scheduled(cron = "0 0 0 * * ?")
 	public void markVacanciesAsInactiveAfter30Days() {
 		LocalDate currentDate = LocalDate.now();
 		List<Vacancy> activeVacancies = vacancyRepository.findByActiveTrue();
 
 		for (Vacancy vacancy : activeVacancies) {
-			if (vacancy.getCreatedDate().isBefore(currentDate)) {
+			if (vacancy.getDueDate() != null && vacancy.getDueDate().isBefore(currentDate)) {
 				vacancy.setActive(false);
 				vacancyRepository.save(vacancy);
 			}
@@ -180,7 +182,8 @@ public class VacancyServiceImpl implements VacancyService {
 
 	@Override
 	public List<Vacancy> getAllActiveVacancy() {
-		return vacancyRepository.findByActiveTrue();
+		LocalDate currentDate = LocalDate.now();
+		return vacancyRepository.findByActiveTrueAndDueDateGreaterThanEqual(currentDate);
 	}
 
 	@Override

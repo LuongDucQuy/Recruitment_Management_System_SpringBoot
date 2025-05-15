@@ -6,7 +6,7 @@ public class DepartmentDTO {
 	private String address;
 	private int createdUserId;
 	private String createdDateTime;
-	private int updatedUserId;
+	private Integer updatedUserId;
 	private String updatedDateTime;
 	private String createdUsername;
 	private String updatedUsername;
@@ -32,7 +32,7 @@ public class DepartmentDTO {
 	}
 
 	public DepartmentDTO(int id, String name, String address, int createdUserId, String createdDateTime,
-			int updatedUserId, String updatedDateTime) {
+			Integer updatedUserId, String updatedDateTime) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -91,11 +91,11 @@ public class DepartmentDTO {
 		this.createdUserId = createdUserId;
 	}
 
-	public int getUpdatedUserId() {
+	public Integer getUpdatedUserId() {
 		return updatedUserId;
 	}
 
-	public void setUpdatedUserId(int updatedUserId) {
+	public void setUpdatedUserId(Integer updatedUserId) {
 		this.updatedUserId = updatedUserId;
 	}
 

@@ -13,13 +13,13 @@ public class InterviewDTO {
 	private String endTime;
 	private String type;
 	private String location;
-	private int stage;
+	private Integer stage;
 	private boolean status;
-	private int createdUserId;
+	private Integer createdUserId;
 	private String createdDateTime;
-	private int updatedUserId;
+	private Integer updatedUserId;
 	private String updatedDateTime;
-	private int canceledUserId;
+	private Integer canceledUserId;
 	private String canceledDateTime;
 	private Vacancy vacancy;
 	private List<User> users;
@@ -29,8 +29,8 @@ public class InterviewDTO {
 	private String canceledUsername;
 
 	public InterviewDTO(Long id, String startDate, String endDate, String startTime, String endTime, String type,
-			String location, int stage, boolean status, int createdUserId, String createdDateTime, int updatedUserId,
-			String updatedDateTime, int canceledUserId, String canceledDateTime, Vacancy vacancy, List<User> users) {
+			String location, Integer stage, boolean status, Integer createdUserId, String createdDateTime, Integer updatedUserId,
+			String updatedDateTime, Integer canceledUserId, String canceledDateTime, Vacancy vacancy, List<User> users) {
 		super();
 		this.id = id;
 		this.startDate = startDate;
@@ -127,11 +127,11 @@ public class InterviewDTO {
 		this.location = location;
 	}
 
-	public int getStage() {
+	public Integer getStage() {
 		return stage;
 	}
 
-	public void setStage(int stage) {
+	public void setStage(Integer stage) {
 		this.stage = stage;
 	}
 
@@ -143,11 +143,11 @@ public class InterviewDTO {
 		this.status = status;
 	}
 
-	public int getCreatedUserId() {
+	public Integer getCreatedUserId() {
 		return createdUserId;
 	}
 
-	public void setCreatedUserId(int createdUserId) {
+	public void setCreatedUserId(Integer createdUserId) {
 		this.createdUserId = createdUserId;
 	}
 
@@ -159,11 +159,11 @@ public class InterviewDTO {
 		this.createdDateTime = createdDateTime;
 	}
 
-	public int getUpdatedUserId() {
+	public Integer getUpdatedUserId() {
 		return updatedUserId;
 	}
 
-	public void setUpdatedUserId(int updatedUserId) {
+	public void setUpdatedUserId(Integer updatedUserId) {
 		this.updatedUserId = updatedUserId;
 	}
 
@@ -175,11 +175,11 @@ public class InterviewDTO {
 		this.updatedDateTime = updatedDateTime;
 	}
 
-	public int getCanceledUserId() {
+	public Integer getCanceledUserId() {
 		return canceledUserId;
 	}
 
-	public void setCanceledUserId(int canceledUserId) {
+	public void setCanceledUserId(Integer canceledUserId) {
 		this.canceledUserId = canceledUserId;
 	}
 

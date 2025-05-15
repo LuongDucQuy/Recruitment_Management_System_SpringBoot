@@ -77,7 +77,7 @@ public class Position {
 		this.createdUserId = createdUserId;
 	}
 
-	public Position(String name, String createdDateTime, String updatedDateTime, int createdUserId, int updatedUserId) {
+	public Position(String name, String createdDateTime, String updatedDateTime, int createdUserId, Integer updatedUserId) {
 		super();
 		this.name = name;
 		this.createdDateTime = createdDateTime;
@@ -87,7 +87,7 @@ public class Position {
 	}
 
 	public Position(int id, String name, String createdDateTime, String updatedDateTime, int createdUserId,
-			int updatedUserId) {
+			Integer updatedUserId) {
 		super();
 		this.id = id;
 		this.name = name;

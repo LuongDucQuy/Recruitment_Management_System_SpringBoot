@@ -2,134 +2,376 @@
 <html lang="en" xmlns:th="www.thymeleaf.org">
 
 <head>
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Home</title>
-<link rel="stylesheet" th:href="@{/vendors/feather/feather.css}">
-<link rel="stylesheet"
-	th:href="@{/vendors/ti-icons/css/themify-icons.css}">
-<link rel="stylesheet" th:href="@{/vendors/css/vendor.bundle.base.css}">
-<link rel="stylesheet"
-	th:href="@{/vendors/datatables.net-bs4/dataTables.bootstrap4.css}">
-<link rel="stylesheet"
-	th:href="@{/vendors/ti-icons/css/themify-icons.css}">
-<link rel="stylesheet" type="text/css"
-	th:href="@{/js/select.dataTables.min.css}">
-<link rel="stylesheet" th:href="@{/css/vertical-layout-light/style.css}">
-<link rel="stylesheet" th:href="@{/css/home.css}">
-<link rel="shortcut icon" th:href="@{/images/Ace_Favicon.png}" />
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Recuiment - Home</title>
+	<link rel="stylesheet" th:href="@{/vendors/feather/feather.css}">
+	<link rel="stylesheet" th:href="@{/vendors/ti-icons/css/themify-icons.css}">
+	<link rel="stylesheet" th:href="@{/vendors/css/vendor.bundle.base.css}">
+	<link rel="stylesheet" th:href="@{/vendors/datatables.net-bs4/dataTables.bootstrap4.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/js/select.dataTables.min.css}">
+	<link rel="stylesheet" th:href="@{/css/vertical-layout-light/style.css}">
+	<link rel="shortcut icon" th:href="@{/images/Ace_Favicon.png}" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+	<style>
+		/* Custom Styles */
+        :root {
+          --primary-color: #3e73b5;
+          --secondary-color: #2c3e50;
+          --accent-color: #1abc9c;
+          --light-bg: #f8f9fa;
+          --card-shadow: 0 4px 8px rgba(0,0,0,0.1);
+          --transition: all 0.3s ease;
+        }
+
+        body {
+          font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+          background-color: #f9f9f9;
+        }
+
+        .navbar {
+          box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+          background-color: white;
+        }
+
+        .navbar-brand img {
+          max-height: 40px;
+        }
+
+        .nav-btn {
+          border-radius: 20px;
+          padding: 6px 15px;
+          font-weight: 500;
+          transition: var(--transition);
+          margin-left: 8px;
+          border: 1px solid var(--primary-color);
+        }
+
+        .nav-btn:hover {
+          background-color: var(--primary-color);
+          color: white;
+          transform: translateY(-2px);
+        }
+
+        .hero-section {
+          position: relative;
+          min-height: 60vh;
+          padding: 3rem 0;
+          background: linear-gradient(135deg, #f5f7fa 0%, #e4eff9 100%);
+          margin-top: 65px;
+        }
+
+        .hero-content {
+          text-align: center;
+          padding: 3rem 1rem;
+        }
+
+        .hero-image {
+          max-height: 380px;
+          object-fit: contain;
+          border-radius: 8px;
+          box-shadow: var(--card-shadow);
+        }
+
+        .hero-title {
+          font-size: 2.8rem;
+          font-weight: 700;
+          color: var(--secondary-color);
+          margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+          font-size: 1.5rem;
+          color: var(--primary-color);
+          font-weight: 500;
+          margin-bottom: 2rem;
+          font-style: italic;
+        }
+
+        .hero-description {
+          font-size: 1.1rem;
+          color: #444;
+          max-width: 800px;
+          margin: 0 auto;
+        }
+
+        .job-section {
+          padding: 4rem 0;
+        }
+
+        .section-title {
+          text-align: center;
+          margin-bottom: 3rem;
+          font-weight: 700;
+          color: var(--secondary-color);
+          position: relative;
+          padding-bottom: 15px;
+        }
+
+        .section-title:after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 80px;
+          height: 3px;
+          background: var(--primary-color);
+        }
+
+        .position-card {
+          border: none;
+          box-shadow: var(--card-shadow);
+          transition: var(--transition);
+          margin-bottom: 2rem;
+          overflow: hidden;
+        }
+
+        .position-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+          background-color: white;
+          border-bottom: 1px solid #eee;
+          padding: 1.2rem;
+        }
+
+        .card-header h3 {
+          margin: 0;
+          font-size: 1.3rem;
+          font-weight: 600;
+        }
+
+        .tab-link {
+          color: var(--primary-color);
+          transition: var(--transition);
+          text-decoration: none;
+        }
+
+        .tab-link:hover {
+          color: var(--accent-color);
+          text-decoration: none;
+        }
+
+        .card-body {
+          padding: 1.5rem;
+        }
+
+        .tags {
+          font-size: 0.9rem;
+          color: #555;
+          display: flex;
+          align-items: center;
+        }
+
+        .tags i {
+          margin-right: 8px;
+          font-size: 1rem;
+        }
+
+        .card-footer {
+          background-color: var(--light-bg);
+          border-top: 1px solid #eee;
+          padding: 1rem;
+        }
+
+        .badge {
+          padding: 6px 12px;
+          font-weight: 500;
+          font-size: 0.8rem;
+        }
+
+        .badge-info {
+          background-color: #e1f5fe;
+          color: #0288d1;
+        }
+
+        .badge-primary {
+          background-color: var(--primary-color);
+        }
+
+        .btn-detail {
+          border-radius: 20px;
+          padding: 4px 12px;
+          font-size: 0.85rem;
+          background-color: var(--secondary-color);
+          border: none;
+          transition: var(--transition);
+        }
+
+        .btn-detail:hover {
+          background-color: var(--primary-color);
+          transform: translateY(-2px);
+        }
+
+        .btn-see-more {
+          background-color: var(--primary-color);
+          color: white;
+          padding: 10px 30px;
+          border-radius: 30px;
+          font-weight: 500;
+          box-shadow: 0 4px 12px rgba(62, 115, 181, 0.3);
+          transition: var(--transition);
+        }
+
+        .btn-see-more:hover {
+          background-color: #2c5a98;
+          transform: translateY(-3px);
+          box-shadow: 0 6px 16px rgba(62, 115, 181, 0.4);
+        }
+
+        footer {
+          background-color: white;
+          padding: 2rem 0;
+          box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+        }
+
+        .footer-content {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+        }
+
+        .footer-info {
+          margin-bottom: 1rem;
+        }
+
+        .footer-contact {
+          display: flex;
+          align-items: center;
+          margin-bottom: 0.5rem;
+        }
+
+        .footer-contact i {
+          margin-right: 8px;
+          color: var(--primary-color);
+        }
+
+        .footer-social a {
+          font-size: 1.5rem;
+          margin-right: 15px;
+          color: var(--primary-color);
+          transition: var(--transition);
+        }
+
+        .footer-social a:hover {
+          color: var(--accent-color);
+          transform: translateY(-3px);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+          .hero-title {
+            font-size: 2rem;
+          }
+
+          .hero-subtitle {
+            font-size: 1.2rem;
+          }
+
+          .footer-content {
+            flex-direction: column;
+            text-align: center;
+          }
+        }
+	</style>
 </head>
 
 <body>
-	<div class="container-scroller">
-		<!-- partial:partials/_navbar.html -->
-		<nav class="navbar col-sm-12 col-12 p-0 fixed-top d-flex "
-			th:fragment="nav">
-			<div
-				class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-				<a class="navbar-brand brand-logo mr-5" th:href="@{/}"><img
-					th:src="@{/images/ACEDataSystemFull.jpg}" alt="logo" /></a> <a
-					class="navbar-brand brand-logo-mini" th:href="@{/}"><img
-					th:src="@{/images/ACEDataSystemFull.jpg}" alt="logo" /></a>
-			</div>
-			<div
-				class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+<div class="container-scroller">
+	<!-- Navbar -->
+	<nav class="navbar col-12 p-0 fixed-top d-flex" th:fragment="nav">
+		<div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+			<a class="navbar-brand brand-logo mr-5" th:href="@{/}">
+				<img th:src="@{/images/logo.png}" alt="ACE Data Systems Logo" />
+			</a>
+			<a class="navbar-brand brand-logo-mini" th:href="@{/}">
+				<img th:src="@{/images/logo.png}" alt="logo" />
+			</a>
+		</div>
+		<div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+			<ul class="navbar-nav navbar-nav-right">
+				<li class="navbar-nav mr-sm-2">
+					<a class="nav-item text-decoration-none" th:href="@{/}">
+						<button class="btn nav-btn">Home</button>
+					</a>
+					<a class="nav-item text-decoration-none" th:href="@{/candidate/jobs}">
+						<button class="btn nav-btn">Jobs</button>
+					</a>
+					<a class="nav-item text-decoration-none" th:href="@{/candidate/about}">
+						<button class="btn nav-btn">About</button>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
 
-				<ul class="navbar-nav navbar-nav-right">
-
-					<li class="navbar-nav mr-sm-2"><a
-						class="nav-item text-decoration-none" th:href="@{/}">
-							<button class="btn btn-light btn-sm hide-on-phone">Home</button>
-					</a> <a class="nav-item text-decoration-none"
-						th:href="@{/candidate/jobs}"><button
-								class="btn btn-light btn-sm">Jobs</button></a> <a
-						class="nav-item text-decoration-none"
-						th:href="@{/candidate/about}"><button
-								class="btn btn-light btn-sm">About</button></a></li>
-				</ul>
-			</div>
-
-		</nav>
-
-
-
-		<div class="main-panel" style="width: 100%; margin-top: 3rem;">
-			<div class="content-wrapper">
-				<!--Welcome text-->
-				<div style="min-height: 55vh;" class="mb-5">
-					<img class="img-fluid col-sm-12" th:src="@{/images/ace-cp.jpg}"
-						style="max-width: 100%; height: auto; max-height: 55vh;">
-					<div class="welcome" style="margin-bottom: 5rem; margin-top: 5rem;">
-						<h1 class="d-none d-md-block">We are hiring...</h1>
-						<h3 class="d-md-none d-sm-block">We are hiring...</h3>
-						<!-- <h6 class="d-sm-none">We are hiring</h6> -->
-						<h3 class="d-none d-md-block">"A Trustworthy Organization
-							providing Total ICT Solutions and Continuous Services."</h3>
-						<h6 class="d-md-none d-sm-block">"A Trustworthy Organization
-							providing Total ICT Solutions and Continuous Services."</h6>
-						<!-- <p class="d-sm-none d-xs-block">"A Trustworthy Organization providing Total ICT Solutions and Continuous Services."</p> -->
-						<p class="d-md-block">Ever since its foundation in 1992, ACE
-							Data Systems has been the most successful IT Services company</p>
+	<!-- Main Content -->
+	<div class="main-panel" style="width: 100%;">
+		<!-- Hero Section -->
+		<section class="hero-section">
+			<div class="container">
+				<div class="row align-items-center">
+					<div class="col-lg-6 order-lg-2">
+						<img class="hero-image img-fluid" th:src="@{/images/recuiment_logo_home.jpg}" alt="Recruitment Logo">
+					</div>
+					<div class="col-lg-6 order-lg-1">
+						<div class="hero-content">
+							<h1 class="hero-title">We are hiring...</h1>
+							<h2 class="hero-subtitle">"A Trustworthy Organization providing Total ICT Solutions and Continuous Services."</h2>
+							<p class="hero-description">Ever since its foundation in 1992, Recuiment Systems has been the most successful IT Services company leading the industry with innovation and excellence.</p>
+						</div>
 					</div>
 				</div>
+			</div>
+		</section>
 
-				<!-- Card -->
-
+		<!-- Job Listings Section -->
+		<section class="job-section">
+			<div class="container">
+				<h2 class="section-title">Current Openings</h2>
 				<div class="row">
-					<div class="col-lg-4 col-md-6 col-xs-12 bg-light"
-						th:each="vacancyItem : ${vacancyList}"
-						th:data-position-id="${vacancyItem.position?.id}">
+					<div class="col-lg-4 col-md-6 col-xs-12"
+						 th:each="vacancyItem : ${vacancyList}"
+						 th:data-position-id="${vacancyItem.position?.id}">
 
-						<div class="card position-card rounded"
-							style="border-radius: 4px;">
+						<div class="card position-card rounded">
 							<div class="card-header">
 								<h3>
-									<a
-										th:href="@{/candidate/vacancy-info/{id}(id = ${vacancyItem.id})}"
-										class="text-black tab-link "
-										th:text="*{vacancyItem.position.name}"></a>
-
+									<a th:href="@{/candidate/vacancy-info/{id}(id = ${vacancyItem.id})}"
+									   class="text-black tab-link"
+									   th:text="*{vacancyItem.position.name}"></a>
 								</h3>
 							</div>
-							<div class="card-body row">
-
-								<div class="tags p-2" style="width: 175px">
-									<div>
-										<i class="ti-user text-info"></i> <span
-											th:text="*{vacancyItem.count}"
-											style="font-family: sans-serif; font-size: 15px"></span>
+							<div class="card-body">
+								<div class="row mb-3">
+									<div class="col-12 tags mb-2">
+										<i class="ti-user text-primary"></i>
+										<span th:text="*{vacancyItem.count} + ' Positions'"></span>
+									</div>
+									<div class="col-12 tags mb-2">
+										<i class="ti-location-pin text-success"></i>
+										<span th:text="*{vacancyItem.department.address}"></span>
+									</div>
+									<div class="col-12 tags">
+										<i class="ti-wallet text-info"></i>
+										<span th:text="*{vacancyItem.salary}"></span>
 									</div>
 								</div>
-								<div class="tags p-2" style="width: 175px">
-									<div>
-										<i class="ti-location-pin text-success"></i> <span
-											th:text="*{vacancyItem.department.address}"></span>
-									</div>
-								</div>
-								<div class="tags p-2 text-green" style="width: 175px">
-									<div>
-										<i class="ti-wallet text-info"></i> <span
-											th:text="*{vacancyItem.salary}"></span>
-									</div>
-								</div>
-
 							</div>
 							<div class="card-footer">
 								<div class="row">
-									<div class="col tags p-2">
-										<span class="badge rounded-pill badge-info"
-											th:text="${vacancyItem.type}"></span> <span
-											th:if="${vacancyItem.urgent}"
-											class="badge rounded-pill badge-primary text-white">Urgent</span>
-									</div>
-
-									<div class="coltags p-2 text-right">
-										<a
-											th:href="@{/candidate/vacancy-info/{id}(id = ${vacancyItem.id})}"
-											class="btn btn-secondary btn-xs">Details</a>
+									<div class="col-7 tags">
+									<span class="badge rounded-pill badge-info" th:text="${vacancyItem.type}"></span>
+									<span th:if="${vacancyItem.urgent}" class="badge rounded-pill badge-danger text-white">Urgent</span>
+								</div>
+									<div class="col-5 text-right">
+										<a th:href="@{/candidate/vacancy-info/{id}(id = ${vacancyItem.id})}"
+										   class="btn btn-detail text-white">Details</a>
 									</div>
 								</div>
 							</div>
@@ -137,70 +379,60 @@
 					</div>
 				</div>
 
-				<div class="container mt-4 mb-4">
-					<div class="row">
-						<div class="col"></div>
-						<!-- Empty container to position the button -->
-						<div class="col-5 text-center">
-							<a
-								class="btn btn-sm rounded-pill shadow text-white tab-link tab-bottom btn-detail"
-								th:href="@{/candidate/jobs}">See More</a>
-						</div>
-						<div class="col"></div>
-						<!-- Empty container to position the button -->
+				<div class="text-center mt-5">
+					<a class="btn btn-see-more" th:href="@{/candidate/jobs}">
+						See All Opportunities
+					</a>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<!-- Footer -->
+	<footer class="footer">
+		<div class="container">
+			<div class="footer-content">
+				<div class="footer-info">
+					<div class="footer-contact">
+						<i class="fa-solid fa-envelope"></i>
+						<span>luongducquy20041117@gmail.com</span>
 					</div>
+					<div class="footer-contact">
+						<i class="fa-solid fa-square-phone"></i>
+						<span>0866-3456-49</span>
+					</div>
+					<div class="mt-2">
+						© 2025 All rights reserved by
+						<a href="acedatasystems.com" target="_blank" style="color: #3e73b5;">Quy Data Systems</a> Ltd.
+					</div>
+				</div>
+
+				<div class="footer-social">
+					<div class="mb-2">Contact Us</div>
+					<a href="https://www.facebook.com/ducquy.7Ro" target="_blank">
+						<i class="fa-brands fa-square-facebook"></i>
+					</a>
+					<a href="https://www.facebook.com/ducquy.7Ro" target="_blank">
+						<i class="fa-brands fa-chrome"></i>
+					</a>
 				</div>
 			</div>
 		</div>
+	</footer>
+</div>
 
-
-		<footer class="footer" style="color: black;">
-			<div
-				class="d-sm-flex justify-content-center justify-content-sm-between">
-				<span class=" text-center text-sm-left d-block d-sm-inline-block">
-					<span style="font-size: 1rem;"> <i
-						class="fa-solid fa-envelope"></i> info@acedatasystems.com
-				</span> <span class="d-block d-sm-inline-block"
-					style="font-size: 1rem; position: relative; left: 1rem;"> <i
-						class="fa-solid fa-square-phone"></i> <span
-						style="font-size: .8rem;">95-1-652239</span>
-				</span><br> © 2023 All rights reserved by <a href="acedatasystems.com"
-					target="_blank" style="color: #3e73b5;">Ace Data Systems</a> Ltd.
-				</span> <span
-					class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Contact-Us.<br>
-					<span style="font-size: 1rem;"> <a
-						href="https://www.facebook.com/acedatasystems"
-						style="color: #3e73b5;"><i
-							class="fa-brands fa-square-facebook"></i></a> <span
-						style="position: relative; left: .3rem;"><a
-							href="https://acedatasystems.com/" style="color: #3e73b5;"><i
-								class="fa-brands fa-chrome"></i></a></span>
-				</span>
-				</span>
-			</div>
-		</footer>
-	</div>
-	<script th:src="@{/vendors/js/vendor.bundle.base.js}"></script>
-	<!-- endinject -->
-	<!-- Plugin js for this page -->
-	<script th:src="@{/vendors/chart.js/Chart.min.js}"></script>
-	<script th:src="@{/vendors/datatables.net/jquery.dataTables.js}"></script>
-	<script
-		th:src="@{/vendors/datatables.net-bs4/dataTables.bootstrap4.js}"></script>
-	<script th:src="@{/js/dataTables.select.min.js}"></script>
-
-	<!-- End plugin js for this page -->
-	<!-- inject:js -->
-	<script th:src="@{/js/off-canvas.js}"></script>
-	<script th:src="@{/js/hoverable-collapse.js}"></script>
-	<script th:src="@{/js/template.js}"></script>
-	<script th:src="@{/js/settings.js}"></script>
-	<script th:src="@{/js/todolist.js}"></script>
-	<!-- endinject -->
-	<!-- Custom js for this page-->
-	<script th:src="@{/js/dashboard.js}"></script>
-	<script th:src="@{/js/Chart.roundedBarCharts.js}"></script>
-	<!-- End custom js for this page-->
+<!-- Scripts -->
+<script th:src="@{/vendors/js/vendor.bundle.base.js}"></script>
+<script th:src="@{/vendors/chart.js/Chart.min.js}"></script>
+<script th:src="@{/vendors/datatables.net/jquery.dataTables.js}"></script>
+<script th:src="@{/vendors/datatables.net-bs4/dataTables.bootstrap4.js}"></script>
+<script th:src="@{/js/dataTables.select.min.js}"></script>
+<script th:src="@{/js/off-canvas.js}"></script>
+<script th:src="@{/js/hoverable-collapse.js}"></script>
+<script th:src="@{/js/template.js}"></script>
+<script th:src="@{/js/settings.js}"></script>
+<script th:src="@{/js/todolist.js}"></script>
+<script th:src="@{/js/dashboard.js}"></script>
+<script th:src="@{/js/Chart.roundedBarCharts.js}"></script>
 </body>
-
 </html>
